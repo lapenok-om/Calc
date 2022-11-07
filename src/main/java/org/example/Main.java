@@ -56,7 +56,7 @@ public class Main
 
     }
 
-    public static int calcSwitch(String sign, int a, int b){
+    static int calcSwitch(String sign, int a, int b){
         int result = 0;
         List<String> signs = Arrays.asList("+", "-", "*", "/");
 
