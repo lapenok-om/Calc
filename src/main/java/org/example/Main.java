@@ -13,14 +13,21 @@ public class Main
     public static void main( String[] args )
     {
         Scanner scn = new Scanner(System.in);
-        String s = scn.nextLine();
 
-        try {
-            System.out.println(calc(s));
-        } catch (Exception e){
-            System.out.println(e.getMessage());
+        while (true){
+            System.out.println("Введите выражение (exit - для выхода)");
+            String s = scn.nextLine();
+            if(s.equals("exit")){
+                break;
+            }
+            try {
+                System.out.println(calc(s));
+            } catch (Exception e){
+                System.out.println(e.getMessage());
+            }
         }
 
+        scn.close();
     }
 
     public static String calc(String input){
@@ -30,59 +37,21 @@ public class Main
             throw new IllegalArgumentException("incorrect expression");
         }
 
-        Roman roman = new Roman();
-        int a, b;
+        List<Character> romans = Arrays.asList('I', 'V', 'X');
 
-        if (roman.isRoman(arr[0]) && roman.isRoman(arr[2])){
+        //если оба числа римские
+        if (romans.contains(arr[0].charAt(0)) && romans.contains(arr[2].charAt(0))){
 
-            a = roman.convertRomanToInt(arr[0]);
-            b = roman.convertRomanToInt(arr[2]);
+           Calculator calculator = new CalculatorRoman();
+            return calculator.calc(arr[0], arr[2], arr[1]);
 
-            return roman.convertIntToRoman(calcSwitch(arr[1], a, b));
+        //если оба числа арабские
+        } else if (!romans.contains(arr[0].charAt(0)) && !romans.contains(arr[2].charAt(0))){
 
-        } else if (!roman.isRoman(arr[0]) && !roman.isRoman(arr[2])){
-
-            try {
-                a = Integer.parseInt(arr[0]);
-                b = Integer.parseInt(arr[2]);
-            } catch (NumberFormatException e){
-                throw new IllegalArgumentException("should be only integers");
-            }
-
-            return String.valueOf(calcSwitch(arr[1], a, b));
+            Calculator calculator = new Calculator();
+            return calculator.calc(arr[0], arr[2], arr[1]);
 
         } else throw new IllegalArgumentException("Uncorrected numbers");
 
-
-    }
-
-    static int calcSwitch(String sign, int a, int b){
-        int result = 0;
-        List<String> signs = Arrays.asList("+", "-", "*", "/");
-
-        if (!signs.contains(sign)){
-            throw new IllegalArgumentException("incorrect sign");
-        }
-
-        if (a > 10 || b > 10) {
-            throw new IllegalArgumentException("the number cannot be more than 10");
-        }
-
-        switch (sign){
-            case "+":
-                result = a + b;
-                break;
-            case "-":
-                result = a - b;
-                break;
-            case "*":
-                result = a * b;
-                break;
-            case "/":
-                result = a / b;
-                break;
-        }
-
-        return result;
     }
 }

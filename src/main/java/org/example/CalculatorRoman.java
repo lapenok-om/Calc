@@ -3,10 +3,10 @@ package org.example;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Roman {
+public class CalculatorRoman extends Calculator{
     Map<Character,Integer> map = new HashMap<>();
 
-    Roman() {
+    public CalculatorRoman() {
         map.put('I', 1);
         map.put('V',5);
         map.put('X',10);
@@ -16,8 +16,13 @@ public class Roman {
         map.put('M',1000);
     }
 
-    boolean isRoman (String s){
-        return map.containsKey(s.charAt(0));
+    @Override
+    String calc(String x, String y, String sign) {
+        int a = convertRomanToInt(x);
+        int b = convertRomanToInt(y);
+
+        String s = super.calc(String.valueOf(a),String.valueOf(b),sign);
+        return convertIntToRoman(s);
     }
 
     int convertRomanToInt (String s){
@@ -35,7 +40,9 @@ public class Roman {
         return result + map.get(s.charAt(s.length()-1));
     }
 
-    String convertIntToRoman (int x){
+    String convertIntToRoman (String st){
+        int x = Integer.parseInt(st);
+
         if (x < 1){
             throw new ArithmeticException("the value of the expression is less than one");
         }
